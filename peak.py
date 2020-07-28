@@ -42,16 +42,37 @@ def login(browser):
     # Fill in matric number and password
     browser.find_element_by_id('matricno').send_keys("EEG/2011/999")
     browser.find_element_by_id('password').send_keys(PEAK_PASSWORD)
-    time.sleep(0.5)
+    time.sleep(2)
 
     # Click sign in button
     browser.find_element_by_class_name("typetwo").click()
-    time.sleep(5)
+    time.sleep(7)
 
-    print("\n\n", browser.current_url, "\n\n")
-    return str(browser.current_url)
+    return str(browser.current_url), browser
+
+
+def updateProfile(browser):
+    '''
+    Update Profile
+    '''
+
+    # Fill in matric number and password
+    browser.find_element_by_id('firstname').send_keys("Ronaldo")
+    browser.find_element_by_id('lastname').send_keys("Christiano")
+    browser.find_element_by_id('department').send_keys("MicroBiology")
+    browser.find_element_by_id('faculty').send_keys("Sciences")
+    time.sleep(3)
+
+    # Click sign in button
+    browser.find_element_by_id("profilebtn").click()
+    time.sleep(5)
 
 
 if __name__ == "__main__":
+
+    profile_update_url = "https://sagittiform-forehea.000webhostapp.com/profile.html"
+
     browser = webdriver.Chrome()
-    login(browser)
+    next_url, current_browser = login(browser)
+    if next_url == profile_update_url:
+        updateProfile(current_browser)
